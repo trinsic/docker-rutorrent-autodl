@@ -4,19 +4,18 @@
 mkdir -p \
 	/config{/log/nginx,/log/rtorrent,/log/rutorrent,/nginx,/php,/rtorrent/rtorrent_sess,/rutorrent/settings/users} \
 	/config/rutorrent/profiles{/settings,/torrents,/users,/tmp} \
+	/config/themes \
 	/downloads{/completed,/incoming,/watched} \
 	/run{/nginx,/php} \
 	/var/lib/nginx/tmp/client_body \
 	/var/tmp/nginx
-
 
 # copy config
 PREV_DIR=$(pwd)
 
 cd /defaults/rutorrent-conf || exit
 	shopt -s globstar nullglob
-	for i in *
-	do
+	for i in *; do
 		[[ ! -e "/config/rutorrent/settings/${i}" ]] && cp -v "${i}" "/config/rutorrent/settings/${i}"
 	done
 
@@ -24,7 +23,6 @@ cd "${PREV_DIR}" || exit
 
 [[ ! -e /config/nginx/nginx.conf ]] && \
 	cp /defaults/nginx.conf /config/nginx/nginx.conf
-
 
 [[ ! -e /config/rtorrent/rtorrent.rc ]] && \
 	cp /defaults/rtorrent.rc /config/rtorrent/rtorrent.rc
@@ -44,6 +42,12 @@ cp /config/php/php.ini /etc/php7/php.ini
 # delete lock file if exists
 [[ -e /config/rtorrent/rtorrent_sess/rtorrent.lock ]] && \
 	rm /config/rtorrent/rtorrent_sess/rtorrent.lock
+
+# custom themes
+[[ ! -L /usr/share/webapps/rutorrent/plugins/theme/themes ]] && \
+	cp -R /usr/share/webapps/rutorrent/plugins/theme/themes/* /config/themes/
+rm -rf /usr/share/webapps/rutorrent/plugins/theme/themes
+ln -s /config/themes /usr/share/webapps/rutorrent/plugins/theme/themes
 
 # permissions
 chown abc:abc \

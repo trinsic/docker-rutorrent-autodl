@@ -1,0 +1,44 @@
+#!/usr/bin/with-contenv bash
+
+# create .autodl config dir
+[[ ! -d /config/.autodl ]] && (mkdir /config/.autodl && chown -R abc:abc /config/.autodl)
+[[ ! -d /home/abc ]] && (mkdir /home/abc && chown -R abc:abc /home/abc)
+
+# get autodl-rutorrent
+[[ ! -d /usr/share/webapps/rutorrent/plugins/autodl-irssi/.git ]] && \
+	git clone --depth 1 --single-branch \
+		https://github.com/autodl-community/autodl-rutorrent.git \
+		/usr/share/webapps/rutorrent/plugins/autodl-irssi
+
+# get autodl-irssi
+[[ ! -d /config/.irssi/scripts/.git ]] && (
+	mkdir -p /config/.irssi/scripts && \
+	git clone --depth 1 --single-branch \
+		https://github.com/autodl-community/autodl-irssi.git \
+		/config/.irssi/scripts && \
+	mkdir -p /config/.irssi/scripts/autorun && \
+	ln -s /config/.irssi/scripts/autodl-irssi.pl /config/.irssi/scripts/autorun/autodl-irssi.pl
+)
+
+# get autodl-trackers
+[[ ! -d /config/.irssi/trackers/.git ]] && (
+	mkdir -p /config/.irssi/trackers && \
+	git clone --depth 1 --single-branch \
+		https://github.com/autodl-community/autodl-trackers.git \
+		/config/.irssi/trackers && \
+	ln -s /config/.irssi/trackers/trackers /config/.irssi/scripts/AutodlIrssi/trackers
+)
+
+# update rutorrent plugin
+git -C /usr/share/webapps/rutorrent/plugins/autodl-irssi pull
+
+# make sure perl is in irssi startup
+echo "load perl" > /config/.irssi/startup
+
+# update autodl script for irssi
+git -C /config/.irssi/scripts pull
+
+# update autodl trackers
+git -C /config/.irssi/trackers clean -fd
+git -C /config/.irssi/trackers reset --hard -q
+git -C /config/.irssi/trackers pull
