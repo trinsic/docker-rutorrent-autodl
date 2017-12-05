@@ -1,9 +1,7 @@
 #!/usr/bin/with-contenv bash
 
 # make folders
-mkdir -p \
-	/config/tmp \
-	/detach_sess
+mkdir -p /config/tmp
 
 # copy config files/set links etc...
 [[ ! -L /home/abc/.autodl ]] && ln -s /config/.autodl /home/abc/.autodl
@@ -15,5 +13,4 @@ mkdir -p \
 # set perms
 chown -R abc:abc \
 	/config \
-	/detach_sess \
 	/usr/share/webapps/rutorrent

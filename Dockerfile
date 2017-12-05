@@ -29,7 +29,6 @@ RUN \
 	php7-sockets \
 	rtorrent \
 	screen \
-	dtach \
 	tar \
 	unrar \
 	unzip \
