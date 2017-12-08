@@ -34,6 +34,7 @@ RUN \
 	unzip \
 	wget \
 	git \
+	sox \
 	zlib \
 	zip && \
 
