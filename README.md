@@ -34,7 +34,7 @@ linuxserver/rutorrent
 
 ## Parameters
 
-`The parameters are split into two halves, separated by a colon, the left hand side representing the host and the right the container side. 
+`The parameters are split into two halves, separated by a colon, the left hand side representing the host and the right the container side.
 For example with a port -p external:internal - what this shows is the port mapping from internal to external of the container.
 So -p 8080:80 would expose port 80 from inside the container to be accessible from the host's IP on port 8080
 http://192.168.x.x:8080 would show you what's running INSIDE the container on port 80.`
@@ -75,7 +75,7 @@ Webui can be found at `<your-ip>:80` , configuration files for rtorrent are in /
 
 ** The Port Assignments and configuration folder structure has been changed from the previous ubuntu based versions of this container and we recommend a clean install **
 
-Umask can be set in the /config/rtorrent/rtorrent.rc file by changing value in `system.umask.set` 
+Umask can be set in the /config/rtorrent/rtorrent.rc file by changing value in `system.umask.set`
 
 If you are seeing this error `Caught internal_error: 'DhtRouter::get_tracker did not actually insert tracker.'.` , a possible fix is to disable dht in `/config/rtorrent/rtorrent.rc` by changing the following values.
 
@@ -89,7 +89,7 @@ peer_exchange = no
 * Shell access whilst the container is running: `docker exec -it rutorrent /bin/bash`
 * To monitor the logs of the container in realtime: `docker logs -f rutorrent`
 
-* container version number 
+* container version number
 
 `docker inspect -f '{{ index .Config.Labels "build_version" }}' rutorrent`
 
@@ -100,6 +100,7 @@ peer_exchange = no
 
 ## Versions
 
++ **08.12.17:** Rebase to alpine 3.7, add sox package.
 + **21.12.17:** Cleanly shut down rtorrent.
 + **28.10.17:** Mediainfo moved from testing to community repo.
 + **09.10.17:** Use repo version of mediainfo to shorten build time.
