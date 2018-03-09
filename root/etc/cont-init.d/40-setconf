@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv bash
 
 # make folders
-mkdir -p /config/tmp
+mkdir -p /config/tmp /detach_sess
 
 # copy config files/set links etc...
 [[ ! -L /home/abc/.autodl ]] && ln -s /config/.autodl /home/abc/.autodl

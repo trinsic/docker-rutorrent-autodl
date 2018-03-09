@@ -40,7 +40,7 @@ RUN \
 	php7-pear \
 	php7-sockets \
 	rtorrent \
-	screen \
+	dtach \
 	sox \
 	tar \
 	unrar \

@@ -6,10 +6,12 @@ _term() {
 	sleep 1
 }
 
-	trap _term SIGTERM
+trap _term SIGTERM
 
-	screen -D -m -S rtorrent \
-		s6-setuidgid abc /usr/bin/rtorrent \
-			-n -o import=/config/rtorrent/rtorrent.rc &
+dtach -N /detach_sess/.rtorrent \
+	s6-setuidgid abc /usr/bin/rtorrent \
+		-n -o import=/config/rtorrent/rtorrent.rc &
 
 wait
+
+sleep 1s
