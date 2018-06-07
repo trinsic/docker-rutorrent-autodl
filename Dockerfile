@@ -82,6 +82,9 @@ RUN \
 # add local files
 COPY root/ /
 
+ENV \
+  S6_KILL_GRACETIME=60000
+
 # ports and volumes
 EXPOSE 80
 VOLUME /config /downloads
