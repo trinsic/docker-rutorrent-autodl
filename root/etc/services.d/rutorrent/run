@@ -2,13 +2,28 @@
 
 _term() {
 	echo "Caught SIGTERM for rtorrent!"
-	killall -s SIGINT rtorrent 2>/dev/null
-	sleep 1
+	# Get rtorrent PID
+	R_PID=`pgrep rtorrent`
+	# Send kill signal to rtorrent
+	# https://github.com/rakshasa/rtorrent/blob/master/src/main.cc#L199
+	kill -s SIGINT ${R_PID} 2>/dev/null
+	# Wait for rtorrent to exit
+	while kill -0 ${R_PID}; do
+		echo "# ${R_PID} Waiting for rtorrent to quit"
+		sleep 1
+	done
 }
 
 trap _term SIGTERM
 
-dtach -N /detach_sess/.rtorrent \
+RTORRENT_LOCK="/detach_sess/.rtorrent"
+# Check if session lock wasn't deleted
+if [ -f ${RTORRENT_LOCK} ] && ! pgrep -q rtorrent; then
+	echo "# Removing rtorrent session lock ${RTORRENT_LOCK}"
+	rm -f ${RTORRENT_LOCK}
+fi
+
+dtach -N ${RTORRENT_LOCK} \
 	s6-setuidgid abc /usr/bin/rtorrent \
 		-n -o import=/config/rtorrent/rtorrent.rc &
 
