@@ -1,10 +1,6 @@
-FROM lsiobase/alpine:3.7
+FROM lsiobase/alpine:3.8
 
-# set version label
-ARG BUILD_DATE
-ARG VERSION
-LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DATE}"
-LABEL maintainer="sparklyballs"
+LABEL maintainer="horjulf"
 
 # copy patches
 COPY patches/ /defaults/patches/
@@ -31,7 +27,7 @@ RUN \
 	perl-json \
 	perl-net-ssleay \
 	perl-xml-libxml \
-  python3 \
+	python3 \
 	php7 \
 	php7-cgi \
 	php7-fpm \
@@ -48,7 +44,8 @@ RUN \
 	wget \
 	git \
 	zlib \
-	zip && \
+	zip \
+	xz && \
  apk add --no-cache -U --repository http://nl.alpinelinux.org/alpine/edge/testing \
 	perl-json-xs && \
  echo "**** setup python pip dependencies ****" && \
@@ -83,7 +80,7 @@ RUN \
 COPY root/ /
 
 ENV \
-  S6_KILL_GRACETIME=60000
+  S6_KILL_GRACETIME=30000
 
 # ports and volumes
 EXPOSE 80
