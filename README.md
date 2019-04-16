@@ -1,27 +1,10 @@
-[linuxserverurl]: https://linuxserver.io
-[forumurl]: https://forum.linuxserver.io
-[ircurl]: https://www.linuxserver.io/irc/
-[podcasturl]: https://www.linuxserver.io/podcast/
-[appurl]: https://github.com/Novik/ruTorrent
-[hub]: https://hub.docker.com/r/linuxserver/rutorrent/
+# Docker rutorrent-autodl
 
-[![linuxserver.io](https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/linuxserver_medium.png)][linuxserverurl]
-
-The [LinuxServer.io][linuxserverurl] team brings you another container release featuring easy user mapping and community support. Find us for support at:
-* [forum.linuxserver.io][forumurl]
-* [IRC][ircurl] on freenode at `#linuxserver.io`
-* [Podcast][podcasturl] covers everything to do with getting the most from your Linux Server plus a focus on all things Docker and containerisation!
-
-# linuxserver/rutorrent
-[![](https://images.microbadger.com/badges/version/linuxserver/rutorrent.svg)](https://microbadger.com/images/linuxserver/rutorrent "Get your own version badge on microbadger.com")[![](https://images.microbadger.com/badges/image/linuxserver/rutorrent.svg)](https://microbadger.com/images/linuxserver/rutorrent "Get your own image badge on microbadger.com")[![Docker Pulls](https://img.shields.io/docker/pulls/linuxserver/rutorrent.svg)][hub][![Docker Stars](https://img.shields.io/docker/stars/linuxserver/rutorrent.svg)][hub][![Build Status](https://ci.linuxserver.io/buildStatus/icon?job=Docker-Builders/x86-64/x86-64-rutorrent)](https://ci.linuxserver.io/job/Docker-Builders/job/x86-64/job/x86-64-rutorrent/)
-
-Popular rtorrent client with a webui for ease of use. [Rutorrent](https://github.com/Novik/ruTorrent)
-
-[![rutorrent](https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/rutorrent.jpg)][appurl]
+Based on linuxserver/rutorrent
 
 ## Usage
 
-```
+```sh
 docker create --name=rutorrent \
 -v <path to data>:/config \
 -v <path to downloads>:/downloads \
@@ -29,7 +12,7 @@ docker create --name=rutorrent \
 -e TZ=<timezone> \
 -p 80:80 -p 5000:5000 \
 -p 51413:51413 -p 6881:6881/udp \
-linuxserver/rutorrent
+horjulf/rutorrent-autodl
 ```
 
 ## Parameters
@@ -38,7 +21,6 @@ linuxserver/rutorrent
 For example with a port -p external:internal - what this shows is the port mapping from internal to external of the container.
 So -p 8080:80 would expose port 80 from inside the container to be accessible from the host's IP on port 8080
 http://192.168.x.x:8080 would show you what's running INSIDE the container on port 80.`
-
 
 * `-p 80` - the port(s)
 * `-p 5000` - the port(s)
@@ -58,7 +40,7 @@ Sometimes when using data volumes (`-v` flags) permissions issues can arise betw
 
 In this instance `PUID=1001` and `PGID=1001`. To find yours use `id user` as below:
 
-```
+```sh
   $ id <dockeruser>
     uid=1001(dockeruser) gid=1001(dockergroup) groups=1001(dockergroup)
 ```
@@ -95,29 +77,4 @@ peer_exchange = no
 
 * image version number
 
-`docker inspect -f '{{ index .Config.Labels "build_version" }}' linuxserver/rutorrent`
-
-
-## Versions
-
-+ **08.12.17:** Rebase to alpine 3.7, add sox package.
-+ **21.12.17:** Cleanly shut down rtorrent.
-+ **28.10.17:** Mediainfo moved from testing to community repo.
-+ **09.10.17:** Use repo version of mediainfo to shorten build time.
-+ **28.05.17:** Fix permissions on secondary temp folder of nginx.
-+ **26.05.17:** Rebase to alpine 3.6.
-+ **03.05.17:** Fix log permissions.
-+ **18.03.17:** Note in readme about disabling dht in some circumstances.
-+ **24.02.17:** Patch a source file to quash rss https bug.
-+ **29.01.17:** Rebase to alpine 3.5.
-+ **20.11.16:** Add php7-mbstring package, bump mediainfo to 0.7.90.
-+ **14.10.16:** Add version layer information.
-+ **04.10.16:** Remove redundant sessions folder.
-+ **30.09.16:** Fix umask.
-+ **21.09.16:** Bump mediainfo, reorg dockerfile, add full wget package.
-+ **09.09.16:** Add layer badges to README.
-+ **28.08.16:** Add badges to README, bump mediainfo version to 0.7.87
-+ **07.08.16:** Perms fix on nginx tmp folder, also exposed php.ini for editing by user
-in /config/php.
-+ **26.07.16:** Rebase to alpine.
-+ **08.03.16:** Intial Release.
+`docker inspect -f '{{ index .Config.Labels "build_version" }}' horjulf/rutorrent-autodl`
