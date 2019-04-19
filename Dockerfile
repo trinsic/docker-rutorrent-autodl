@@ -1,4 +1,4 @@
-FROM lsiobase/nginx:3.9
+FROM lsiobase/nginx:3.8
 
 LABEL maintainer="horjulf"
 
