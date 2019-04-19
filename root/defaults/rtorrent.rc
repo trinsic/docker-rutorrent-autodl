@@ -1,5 +1,5 @@
 # Rutorrent plugins
-execute = {sh,-c,/usr/bin/php7 /usr/share/webapps/rutorrent/php/initplugins.php abc &}
+execute = {sh,-c,/usr/bin/php7 /app/rutorrent/php/initplugins.php abc &}
 execute.nothrow = rm,/run/php/.rtorrent.sock
 # SGCI
 network.scgi.open_local = /run/php/.rtorrent.sock

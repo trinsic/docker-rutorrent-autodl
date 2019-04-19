@@ -1,5 +1,5 @@
---- /usr/share/webapps/rutorrent/php/Snoopy.class.inc	2017-02-24 13:09:52.700398089 +0000
-+++ /usr/share/webapps/rutorrent/php/Snoopy.class.inc	2017-02-24 13:10:25.736389184 +0000
+--- /app/rutorrent/php/Snoopy.class.inc	2017-02-24 13:09:52.700398089 +0000
++++ /app/rutorrent/php/Snoopy.class.inc	2017-02-24 13:10:25.736389184 +0000
 @@ -317,7 +317,7 @@
  		if(!empty($this->agent))
  			$headers .= "User-Agent: ".$this->agent."\r\n";
