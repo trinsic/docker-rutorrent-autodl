@@ -1,0 +1,14 @@
+#!/usr/bin/with-contenv bash
+
+echo "Finish rtorrent!"
+# Get rtorrent PID
+R_PID=`pidof rtorrent`
+# D_PID=`pgrep -f /detach_sess/.rtorrent`
+# Send kill signal to rtorrent
+# https://github.com/rakshasa/rtorrent/blob/master/src/main.cc#L199
+kill -INT ${R_PID} 2>/dev/null
+# Wait for rtorrent to exit
+while kill -0 ${R_PID} && ! [ $(ps -o stat --no-headers -p ${R_PID}) = "Zs" ] ; do
+    echo "# ${R_PID} Waiting for rtorrent to quit"
+    sleep 1
+done

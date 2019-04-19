@@ -1,4 +1,4 @@
-FROM lsiobase/alpine:3.8
+FROM lsiobase/nginx:3.9
 
 LABEL maintainer="horjulf"
 
@@ -8,18 +8,19 @@ COPY patches/ /defaults/patches/
 # install packages
 RUN \
  echo "**** install packages ****" && \
- apk add --no-cache -U \
+ apk add --no-cache --upgrade \
+	bind-tools \
 	ca-certificates \
 	curl \
+	dtach \
 	fcgi \
 	ffmpeg \
 	geoip \
+	git \
 	gzip \
 	irssi \
 	irssi-perl \
-	logrotate \
 	mediainfo \
-	nginx \
 	perl \
 	perl-archive-zip \
 	perl-digest-sha1 \
@@ -27,61 +28,68 @@ RUN \
 	perl-json \
 	perl-net-ssleay \
 	perl-xml-libxml \
-	python3 \
 	php7 \
 	php7-cgi \
-	php7-fpm \
 	php7-json \
 	php7-mbstring \
 	php7-pear \
 	php7-sockets \
+	php7-zip \
+	procps \
+	python3 \
 	rtorrent \
-	dtach \
 	sox \
 	tar \
 	unrar \
 	unzip \
 	wget \
-	git \
-	zlib \
+	xz \
 	zip \
-	xz && \
+	zlib && \
  apk add --no-cache -U --repository http://nl.alpinelinux.org/alpine/edge/testing \
 	perl-json-xs && \
  echo "**** setup python pip dependencies ****" && \
- python3 -m pip install --no-cache-dir -U pip setuptools requests urllib3 && \
- echo "**** install webui ****" && \
- mkdir -p \
-	/usr/share/webapps/rutorrent \
-	/defaults/rutorrent-conf && \
+ python3 -m pip install --no-cache-dir -U \
+	cfscrape \
+	pip \
+	requests \
+	setuptools \
+	urllib3 && \
+ echo "**** install rutorrent ****" && \
+ if [ -z ${RUTORRENT_VERSION+x} ]; then \
+	RUTORRENT_VERSION=$(curl -sX GET https://api.github.com/repos/Novik/rutorrent/commits/master \
+	| awk '/sha/{print $4;exit}' FS='[""]'); \
+ fi && \
  curl -o \
-	/tmp/rutorrent.tar.gz -L \
-	"https://github.com/Novik/ruTorrent/archive/master.tar.gz" && \
+ /tmp/rutorrent.tar.gz -L \
+	"https://github.com/Novik/rutorrent/archive/${RUTORRENT_VERSION}.tar.gz" && \
+ mkdir -p \
+	/app/rutorrent \
+	/defaults/rutorrent-conf && \
  tar xf \
-	/tmp/rutorrent.tar.gz -C \
-	/usr/share/webapps/rutorrent --strip-components=1 && \
- mv /usr/share/webapps/rutorrent/conf/* \
+ /tmp/rutorrent.tar.gz -C \
+	/app/rutorrent --strip-components=1 && \
+ mv /app/rutorrent/conf/* \
 	/defaults/rutorrent-conf/ && \
  rm -rf \
 	/defaults/rutorrent-conf/users && \
  echo "**** patch snoopy.inc for rss fix ****" && \
- cd /usr/share/webapps/rutorrent/php && \
+ cd /app/rutorrent/php && \
  patch < /defaults/patches/snoopy.patch && \
- echo "**** install additional rutorrent theme ****" && \
- git clone git://github.com/phlooo/ruTorrent-MaterialDesign.git /usr/share/webapps/rutorrent/plugins/theme/themes/MaterialDesign && \
- echo "**** fix logrotate ****" && \
- sed -i "s#/var/log/messages {}.*# #g" /etc/logrotate.conf && \
  echo "**** cleanup ****" && \
  rm -rf \
 	/etc/nginx/conf.d/default.conf \
+	/root/.cache \
 	/tmp/*
 
 # add local files
 COPY root/ /
 
 ENV \
-  S6_KILL_GRACETIME=30000
+  # 2 minutes for finish scripts to run
+  S6_KILL_FINISH_MAXTIME=120000 \
+  S6_SERVICES_GRACETIME=5000 \
+  S6_KILL_GRACETIME=5000
 
 # ports and volumes
 EXPOSE 80
-VOLUME /config /downloads

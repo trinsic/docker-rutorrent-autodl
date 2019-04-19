@@ -5,10 +5,10 @@
 [[ ! -d /home/abc ]] && (mkdir /home/abc && chown -R abc:abc /home/abc)
 
 # get autodl-rutorrent
-[[ ! -d /usr/share/webapps/rutorrent/plugins/autodl-irssi/.git ]] && \
+[[ ! -d /app/rutorrent/plugins/autodl-irssi/.git ]] && \
 	git clone --depth 1 --single-branch \
 		https://github.com/autodl-community/autodl-rutorrent.git \
-		/usr/share/webapps/rutorrent/plugins/autodl-irssi
+		/app/rutorrent/plugins/autodl-irssi
 
 # get autodl-irssi
 [[ ! -d /config/.irssi/scripts/.git ]] && (
@@ -30,7 +30,7 @@
 )
 
 # update rutorrent plugin
-git -C /usr/share/webapps/rutorrent/plugins/autodl-irssi pull
+git -C /app/rutorrent/plugins/autodl-irssi pull
 
 # make sure perl is in irssi startup
 echo "load perl" > /config/.irssi/startup
@@ -42,3 +42,17 @@ git -C /config/.irssi/scripts pull
 git -C /config/.irssi/trackers clean -fd
 git -C /config/.irssi/trackers reset --hard -q
 git -C /config/.irssi/trackers pull
+
+# copy config files/set links etc...
+[[ ! -L /home/abc/.autodl ]] && ln -s /config/.autodl /home/abc/.autodl
+[[ ! -L /config/.irssi/scripts/autorun/autodl-irssi.pl ]] && ln -s /config/.irssi/scripts/autodl-irssi.pl /config/.irssi/scripts/autorun/autodl-irssi.pl
+[[ ! -L /config/.irssi/scripts/AutodlIrssi/trackers ]] && (
+	rm -rf /config/.irssi/scripts/AutodlIrssi/trackers && \
+	ln -s /config/.irssi/trackers/trackers /config/.irssi/scripts/AutodlIrssi/trackers
+)
+[[ ! -f /config/.autodl/autodl.cfg ]] && cp /defaults/autodl/autodl.cfg /config/.autodl/autodl.cfg
+[[ ! -f /app/rutorrent/plugins/autodl-irssi/conf.php ]] && cp /defaults/autodl/conf.php /app/rutorrent/plugins/autodl-irssi/conf.php
+
+# Detach session folder
+mkdir -p /detach_sess
+chown -R abc:abc /detach_sess

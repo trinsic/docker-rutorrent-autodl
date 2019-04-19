@@ -15,8 +15,8 @@ if [ -S "${AUTODL_LOCK}" ] && ! pgrep irssi > /dev/null; then
 	rm -f "${AUTODL_LOCK}"
 fi
 
-HOME=/config dtach -N "${AUTODL_LOCK}" \
-	s6-setuidgid abc /usr/bin/irssi --home=/config/.irssi &
+HOME=/config exec s6-setuidgid abc dtach -N "${AUTODL_LOCK}" \
+	/usr/bin/irssi --home=/config/.irssi &
 
 DTACH_PID=$!
 echo "# irssi/autodl dtach session started ${DTACH_PID}"
