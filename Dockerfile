@@ -46,7 +46,7 @@ RUN \
 	xz \
 	zip \
 	zlib && \
- apk add --no-cache -U --repository http://nl.alpinelinux.org/alpine/edge/testing \
+ apk add --no-cache -U --repository http://nl.alpinelinux.org/alpine/edge/community \
 	perl-json-xs && \
  echo "**** setup python pip dependencies ****" && \
  python3 -m pip install --no-cache-dir -U \
