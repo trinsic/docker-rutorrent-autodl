@@ -50,7 +50,7 @@ RUN \
 	perl-json-xs && \
  echo "**** setup python pip dependencies ****" && \
  python3 -m pip install --no-cache-dir -U \
-	cfscrape \
+	cloudscraper \
 	pip \
 	requests \
 	setuptools \
