@@ -10,6 +10,7 @@ RUN \
  echo "**** install build packages ****" && \
  apk add --no-cache --virtual=build-dependencies \
 	g++ \
+	libffi-dev \
 	python3-dev && \
  echo "**** install packages ****" && \
  apk add --no-cache --upgrade \
