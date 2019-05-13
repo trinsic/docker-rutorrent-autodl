@@ -7,6 +7,10 @@ COPY patches/ /defaults/patches/
 
 # install packages
 RUN \
+ echo "**** install build packages ****" && \
+ apk add --no-cache --virtual=build-dependencies \
+	g++ \
+	python3-dev && \
  echo "**** install packages ****" && \
  apk add --no-cache --upgrade \
 	bind-tools \
@@ -77,6 +81,8 @@ RUN \
  cd /app/rutorrent/php && \
  patch < /defaults/patches/snoopy.patch && \
  echo "**** cleanup ****" && \
+ apk del --purge \
+	build-dependencies && \
  rm -rf \
 	/etc/nginx/conf.d/default.conf \
 	/root/.cache \
