@@ -11,6 +11,7 @@ RUN \
  apk add --no-cache --virtual=build-dependencies \
 	g++ \
 	libffi-dev \
+	openssl-dev \
 	python3-dev && \
  echo "**** install packages ****" && \
  apk add --no-cache --upgrade \
