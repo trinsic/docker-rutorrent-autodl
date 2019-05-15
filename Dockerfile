@@ -1,4 +1,4 @@
-FROM lsiobase/nginx:3.8
+FROM lsiobase/nginx:3.9
 
 LABEL maintainer="horjulf"
 
@@ -11,7 +11,10 @@ RUN \
  apk add --no-cache --virtual=build-dependencies \
 	g++ \
 	libffi-dev \
+	make \
+	musl \
 	openssl-dev \
+	perl-dev \
 	python3-dev && \
  echo "**** install packages ****" && \
  apk add --no-cache --upgrade \
@@ -53,8 +56,6 @@ RUN \
 	xz \
 	zip \
 	zlib && \
- apk add --no-cache -U --repository http://nl.alpinelinux.org/alpine/edge/community \
-	perl-json-xs && \
  echo "**** install perl dependencies ****" && \
 	PERL_MM_USE_DEFAULT=1 cpan JSON::XS && \
  echo "**** setup python pip dependencies ****" && \
