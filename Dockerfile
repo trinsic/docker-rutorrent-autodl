@@ -53,9 +53,8 @@ RUN \
 	xz \
 	zip \
 	zlib && \
-export PERL_MM_USE_DEFAULT=1 && \
-cpan \
-	JSON::XS && \
+ echo "**** install perl dependencies ****" && \
+	PERL_MM_USE_DEFAULT=1 cpan JSON::XS && \
  echo "**** setup python pip dependencies ****" && \
  python3 -m pip install --no-cache-dir -U \
 	cloudscraper \
