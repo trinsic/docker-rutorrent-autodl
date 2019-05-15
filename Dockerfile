@@ -53,6 +53,8 @@ RUN \
 	xz \
 	zip \
 	zlib && \
+ apk add --no-cache -U --repository http://nl.alpinelinux.org/alpine/edge/community \
+	perl-json-xs && \
  echo "**** install perl dependencies ****" && \
 	PERL_MM_USE_DEFAULT=1 cpan JSON::XS && \
  echo "**** setup python pip dependencies ****" && \
