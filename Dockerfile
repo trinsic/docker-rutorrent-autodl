@@ -28,6 +28,7 @@ RUN \
 	irssi-perl \
 	mediainfo \
 	perl \
+	perl-utils \
 	perl-archive-zip \
 	perl-digest-sha1 \
 	perl-html-parser \
@@ -52,8 +53,9 @@ RUN \
 	xz \
 	zip \
 	zlib && \
- apk add --no-cache -U --repository http://nl.alpinelinux.org/alpine/edge/community \
-	perl-json-xs && \
+export PERL_MM_USE_DEFAULT=1 && \
+cpan \
+	JSON::XS && \
  echo "**** setup python pip dependencies ****" && \
  python3 -m pip install --no-cache-dir -U \
 	cloudscraper \
