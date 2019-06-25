@@ -40,6 +40,7 @@ RUN \
 	perl-xml-libxml \
 	php7 \
 	php7-cgi \
+	php7-curl \
 	php7-json \
 	php7-mbstring \
 	php7-pear \
