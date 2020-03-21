@@ -1,4 +1,4 @@
-FROM lsiobase/nginx:3.8
+FROM lsiobase/nginx:3.11
 
 LABEL maintainer="horjulf"
 
@@ -14,7 +14,6 @@ RUN \
 	make \
 	musl \
 	openssl-dev \
-	perl-dev \
 	python3-dev && \
  echo "**** install packages ****" && \
  apk add --no-cache --upgrade \
@@ -36,6 +35,7 @@ RUN \
 	perl-digest-sha1 \
 	perl-html-parser \
 	perl-json \
+	perl-json-xs \
 	perl-net-ssleay \
 	perl-xml-libxml \
 	php7 \
@@ -57,8 +57,6 @@ RUN \
 	xz \
 	zip \
 	zlib && \
- echo "**** install perl dependencies ****" && \
-	PERL_MM_USE_DEFAULT=1 cpan JSON::XS && \
  echo "**** setup python pip dependencies ****" && \
  python3 -m pip install --no-cache-dir -U \
 	cloudscraper \
