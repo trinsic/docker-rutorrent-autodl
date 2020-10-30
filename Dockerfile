@@ -1,5 +1,4 @@
-FROM lsiobase/nginx:3.11
-
+FROM lsiobase/nginx:arm32v7-3.11
 LABEL maintainer="horjulf"
 
 # copy patches
@@ -48,7 +47,6 @@ RUN \
 	php7-zip \
 	procps \
 	python3 \
-	rtorrent \
 	sox \
 	tar \
 	unrar \
